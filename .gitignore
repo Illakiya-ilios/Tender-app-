@@ -1,0 +1,16 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Generated output
+tender_app/output/
+output/
+
+# OS
+.DS_Store
+Thumbs.db

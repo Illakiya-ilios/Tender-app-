@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bid Evaluation · BidSight</title>
+  <link rel="stylesheet" href="/static/style.css?v=5">
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Left sidebar (shared navigation) -->
+    <nav class="sidebar">
+      <div class="sidebar-brand">
+        <span class="sidebar-logo">◆</span>
+        <span class="sidebar-title">BidSight</span>
+      </div>
+      <div class="sidebar-tag">Smarter Tenders. Bigger Wins.</div>
+
+      <ul class="nav-list">
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/">Tenders</a></li>
+        <li><a href="/">Create Tender</a></li>
+        <li><a href="/evaluation" class="active">Validate Tender</a></li>
+        <li><a href="/evaluation" class="active">Compare Proposals</a></li>
+      </ul>
+
+      <div class="nav-group-label">BidSight AI</div>
+      <ul class="nav-list">
+        <li><a href="/">Requirement Agent</a></li>
+        <li><a href="/">Research &amp; Drafting</a></li>
+        <li><a href="/evaluation" class="active">Evaluation Agent</a></li>
+      </ul>
+
+      <div class="sidebar-foot">
+        <div class="sb-user">
+          <span class="sb-avatar">O</span>
+          <span>
+            <span class="sb-user-name">Officer</span>
+            <span class="sb-user-role">Procurement Officer</span>
+          </span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="app-content">
+  <header class="topbar">
+    <div class="brand">Bid Evaluation</div>
+    <div class="sub">
+      Stage 3 · Bid Evaluation &amp; Best-Match
+      <a class="topbar-link" href="/">&larr; Tender Builder</a>
+    </div>
+  </header>
+
+  <nav class="eval-tabs">
+    <button class="eval-tab active" data-tab="doccheck">Bid Document Check</button>
+    <button class="eval-tab" data-tab="matrix">Bid Evaluation</button>
+    <button class="eval-tab" data-tab="shortlist">Best Match</button>
+  </nav>
+
+  <div id="eval-error" class="eval-banner error" hidden></div>
+
+  <!-- ===================== SCREEN 1: Bid Document Check ===================== -->
+  <section class="eval-panel active" id="panel-doccheck">
+    <div class="eval-grid">
+      <div class="eval-main">
+        <div class="card">
+          <h2>Register bidders</h2>
+          <form id="bid-upload-form" class="upload-row">
+            <input type="text" id="bidder-name" placeholder="Bidder name" required>
+            <input type="text" id="bid-id" placeholder="Bid ID" required>
+            <input type="file" id="bid-files" accept=".zip" multiple required>
+            <button type="submit" class="secondary">Add bidder</button>
+          </form>
+          <div id="registered-bidders" class="registered-list"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h2>Document check</h2>
+            <div class="card-actions">
+              <button id="run-check-btn">Run document check</button>
+              <button id="rerun-check-btn" class="secondary" hidden>Re-run</button>
+            </div>
+          </div>
+
+          <div class="tiles" id="doccheck-tiles"></div>
+
+          <div class="matrix-wrap">
+            <table class="eval-matrix" id="doccheck-matrix">
+              <thead></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="release-bar">
+            <a id="missing-report-link" class="dl-link" href="/api/eval/missing-report">
+              Download missing documents report
+            </a>
+            <button id="release-btn" class="primary" hidden>Release Complete Bids to Scoring</button>
+          </div>
+        </div>
+      </div>
+
+      <aside class="eval-side card">
+        <h2>Action Needed</h2>
+        <div id="action-needed">
+          <p class="muted">Click a bidder column header to see its missing or
+            unreadable documents.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ===================== SCREEN 2: Bid Evaluation ===================== -->
+  <section class="eval-panel" id="panel-matrix">
+    <div class="eval-grid">
+      <div class="eval-main">
+        <div class="card">
+          <div class="card-head">
+            <h2>Evaluation Matrix</h2>
+            <button id="goto-shortlist-btn" class="secondary">Go to Best Match &rarr;</button>
+          </div>
+          <div class="matrix-wrap">
+            <table class="eval-matrix" id="eval-matrix">
+              <thead></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <aside class="eval-side card">
+        <h2>Evidence &amp; Justification</h2>
+        <div id="evidence-panel">
+          <p class="muted">Click a status cell in the matrix to see the cited
+            evidence, justification, and source documents.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ===================== SCREEN 3: Best Match ===================== -->
+  <section class="eval-panel" id="panel-shortlist">
+    <div class="eval-main wide">
+      <div id="none-eligible-banner" class="eval-banner warn" hidden></div>
+
+      <div class="card" id="best-match-card" hidden></div>
+
+      <div class="card">
+        <div class="card-head">
+          <h2>Ranked Bidders</h2>
+          <a id="report-link" class="dl-link" href="/api/eval/report">Download Evaluation Report</a>
+        </div>
+        <div id="ranked-list" class="ranked-list"></div>
+      </div>
+
+      <div class="card" id="why-lower-card" hidden>
+        <h2>Why others ranked lower</h2>
+        <div id="why-lower"></div>
+      </div>
+
+      <div class="card">
+        <h2>Officer override</h2>
+        <form id="override-form" class="override-form">
+          <div class="override-row">
+            <select id="ov-target">
+              <option value="coverage">Coverage</option>
+              <option value="completeness">Completeness</option>
+              <option value="capacity">Capacity</option>
+            </select>
+            <input type="text" id="ov-bid-id" placeholder="Bid ID">
+            <input type="text" id="ov-item-key" placeholder="Item key (coverage only)">
+            <input type="text" id="ov-new-value" placeholder="New value">
+          </div>
+          <textarea id="ov-justification" rows="2"
+            placeholder="Justification (required)"></textarea>
+          <button type="submit" id="ov-submit" class="secondary" disabled>Apply override</button>
+        </form>
+      </div>
+
+      <div id="selection-banner" class="eval-banner ok" hidden></div>
+    </div>
+  </section>
+    </div><!-- /app-content -->
+  </div><!-- /app-shell -->
+
+  <script src="/static/evaluation.js?v=1"></script>
+</body>
+</html>

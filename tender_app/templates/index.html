@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tender Builder</title>
+  <link rel="stylesheet" href="/static/style.css?v=5">
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Left sidebar (shared navigation) -->
+    <nav class="sidebar">
+      <div class="sidebar-brand">
+        <span class="sidebar-logo">◆</span>
+        <span class="sidebar-title">BidSight</span>
+      </div>
+      <div class="sidebar-tag">Smarter Tenders. Bigger Wins.</div>
+
+      <ul class="nav-list">
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/">Tenders</a></li>
+        <li><a href="/" class="active">Create Tender</a></li>
+        <li><a href="/evaluation">Validate Tender</a></li>
+        <li><a href="/evaluation">Compare Proposals</a></li>
+      </ul>
+
+      <div class="nav-group-label">BidSight AI</div>
+      <ul class="nav-list">
+        <li><a href="/" class="active">Requirement Agent</a></li>
+        <li><a href="/">Research &amp; Drafting</a></li>
+        <li><a href="/evaluation">Evaluation Agent</a></li>
+      </ul>
+
+      <div class="sidebar-foot">
+        <div class="sb-user">
+          <span class="sb-avatar">O</span>
+          <span>
+            <span class="sb-user-name">Officer</span>
+            <span class="sb-user-role">Procurement Officer</span>
+          </span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="app-content">
+      <header class="topbar">
+        <div class="brand">Tender Builder</div>
+        <div class="sub">Simple format · chat-driven requirement capture</div>
+      </header>
+
+      <main class="layout">
+        <section class="chat-panel">
+          <h2>Chat with Requirement Agent</h2>
+          <div id="messages" class="messages"></div>
+          <form id="chat-form" class="chat-input">
+            <textarea id="user-input" rows="2"
+              placeholder="Describe the tender need, or answer the question..."></textarea>
+            <button type="submit">Send</button>
+          </form>
+        </section>
+
+        <aside class="brief-panel">
+          <div class="brief-head">
+            <h2>Requirement Brief</h2>
+            <span id="completeness" class="pill">0%</span>
+          </div>
+          <table class="brief-table">
+            <tbody id="brief-body"></tbody>
+          </table>
+
+          <div class="arch-block">
+            <div class="arch-head">
+              <h3>Approved Architecture</h3>
+              <button id="architect-btn" class="secondary">Suggest Architecture</button>
+            </div>
+            <div id="architecture" class="architecture">
+              <p class="muted">Describe the use case in chat, click
+                "Suggest Architecture", then approve it. Approved components appear
+                here and feed both the tender document and the BOQ.</p>
+            </div>
+          </div>
+
+          <div class="notes-block">
+            <label for="notes">Extra notes for drafting (optional)</label>
+            <textarea id="notes" rows="2"
+              placeholder="e.g. must integrate with existing college website..."></textarea>
+          </div>
+
+          <div class="actions">
+            <button id="generate-btn" class="primary" disabled>Generate Tender + BOQ</button>
+            <p id="gen-hint" class="muted">Approve an architecture to enable generation.</p>
+          </div>
+          <div id="downloads" class="downloads"></div>
+        </aside>
+      </main>
+    </div>
+  </div>
+
+  <script src="/static/app.js?v=2"></script>
+</body>
+</html>

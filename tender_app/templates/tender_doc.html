@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  @page { size: A4; margin: 2cm 1.8cm; }
+  body { font-family: "Arial", sans-serif; font-size: 11pt; color: #1a1a1a; line-height: 1.45; }
+  .center { text-align: center; }
+  h1 { font-size: 15pt; margin: 0 0 4px; }
+  h2 { font-size: 12pt; border-bottom: 1.5px solid #1F3864; color: #1F3864;
+       padding-bottom: 3px; margin-top: 22px; }
+  .ref { font-size: 10pt; color: #444; }
+  table.ds { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  table.ds td { border: 1px solid #888; padding: 5px 8px; vertical-align: top; font-size: 10pt; }
+  table.ds td.k { width: 38%; font-weight: bold; background: #f0f3f8; }
+  .section-body { margin-top: 6px; text-align: justify; }
+</style>
+</head>
+<body>
+  <div class="center">
+    <h1>{{ b.tender_inviting_authority or "Tender Inviting Authority" }}</h1>
+    <div class="ref">{{ b.authority_address }}</div>
+    <div class="ref">{{ b.authority_contact }}</div>
+    <h2 style="border:none; margin-top:14px;">{{ b.name_of_work or "Tender Document" }}</h2>
+    <div class="ref">Tender Ref. No.: {{ b.tender_reference_no }}</div>
+  </div>
+
+  <h2>I. Notice Inviting Tender &amp; Tender Data Sheet</h2>
+  <table class="ds">
+    <tr><td class="k">Tender Inviting Authority</td><td>{{ b.tender_inviting_authority }}</td></tr>
+    <tr><td class="k">Name of Work</td><td>{{ b.name_of_work }}</td></tr>
+    <tr><td class="k">Tender Reference No.</td><td>{{ b.tender_reference_no }}</td></tr>
+    <tr><td class="k">Type of Bid</td><td>{{ b.bid_type }}</td></tr>
+    <tr><td class="k">Earnest Money Deposit (EMD)</td><td>{{ b.emd_amount }}</td></tr>
+    <tr><td class="k">Estimated Value</td><td>{{ b.estimated_value }}</td></tr>
+    <tr><td class="k">Contract Period</td><td>{{ b.contract_period }}</td></tr>
+    <tr><td class="k">Pre-Bid Meeting</td><td>{{ b.pre_bid_datetime }}</td></tr>
+    <tr><td class="k">Last Date &amp; Time of Submission</td><td>{{ b.submission_due_datetime }}</td></tr>
+    <tr><td class="k">Date &amp; Time of Bid Opening</td><td>{{ b.bid_opening_datetime }}</td></tr>
+    <tr><td class="k">Bid Validity</td><td>{{ b.bid_validity_days }} days</td></tr>
+    <tr><td class="k">e-Tender Portal</td><td>{{ b.portal_url }}</td></tr>
+    <tr><td class="k">Governing Law</td><td>{{ b.governing_law }}</td></tr>
+  </table>
+
+  <h2>II. Scope of Work</h2>
+  <div class="section-body">{{ b.scope_of_work | nl2br | safe }}</div>
+
+  <h2>III. Technical Requirements</h2>
+  <div class="section-body">{{ b.technical_requirements | nl2br | safe }}</div>
+
+  <h2>IV. Terms and Conditions</h2>
+  <div class="section-body">{{ b.terms_and_conditions | nl2br | safe }}</div>
+
+  {% if b.boq_items %}
+  <h2>V. Price Schedule (BOQ) — Summary</h2>
+  <table class="ds">
+    <tr>
+      <td class="k">Sl.</td><td class="k">Item</td>
+      <td class="k">Qty</td><td class="k">Units</td>
+    </tr>
+    {% for it in b.boq_items %}
+    <tr><td>{{ it.sl_no }}</td><td>{{ it.item_description }}</td>
+        <td>{{ it.quantity }}</td><td>{{ it.units }}</td></tr>
+    {% endfor %}
+  </table>
+  <p class="ref">The detailed BOQ is provided as a separate Excel price schedule.</p>
+  {% endif %}
+</body>
+</html>

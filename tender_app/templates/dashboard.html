@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard · BidSight</title>
+  <link rel="stylesheet" href="/static/style.css?v=5">
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Left sidebar (shared navigation) -->
+    <nav class="sidebar">
+      <div class="sidebar-brand">
+        <span class="sidebar-logo">◆</span>
+        <span class="sidebar-title">BidSight</span>
+      </div>
+      <div class="sidebar-tag">Smarter Tenders. Bigger Wins.</div>
+
+      <ul class="nav-list">
+        <li><a href="/dashboard" class="active">Dashboard</a></li>
+        <li><a href="/">Tenders</a></li>
+        <li><a href="/">Create Tender</a></li>
+        <li><a href="/evaluation">Validate Tender</a></li>
+        <li><a href="/evaluation">Compare Proposals</a></li>
+      </ul>
+
+      <div class="nav-group-label">BidSight AI</div>
+      <ul class="nav-list">
+        <li><a href="/">Requirement Agent</a></li>
+        <li><a href="/">Research &amp; Drafting</a></li>
+        <li><a href="/evaluation">Evaluation Agent</a></li>
+      </ul>
+
+      <div class="sidebar-foot">
+        <div class="sb-user">
+          <span class="sb-avatar">O</span>
+          <span>
+            <span class="sb-user-name">Officer</span>
+            <span class="sb-user-role">Procurement Officer</span>
+          </span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="app-content">
+      <header class="topbar">
+        <div class="brand">Dashboard</div>
+        <div class="sub">Overview of tenders &amp; evaluations</div>
+      </header>
+
+      <main class="dashboard">
+        <div id="dash-error" class="eval-banner error" hidden></div>
+
+        <!-- Summary tiles (Req 8) -->
+        <div class="tiles">
+          <div class="tile" id="tile-total-tenders">
+            <div class="tile-val" id="val-total-tenders">0</div>
+            <div class="tile-label">Tenders generated</div>
+          </div>
+          <div class="tile" id="tile-total-evaluations">
+            <div class="tile-val" id="val-total-evaluations">0</div>
+            <div class="tile-label">Evaluations</div>
+          </div>
+          <div class="tile" id="tile-awarded">
+            <div class="tile-val" id="val-awarded">0</div>
+            <div class="tile-label">Awarded</div>
+          </div>
+          <div class="tile" id="tile-scored">
+            <div class="tile-val" id="val-scored">0</div>
+            <div class="tile-label">Scored</div>
+          </div>
+        </div>
+
+        <!-- Tenders + Evaluations (Req 9, 10) -->
+        <div id="content">
+          <div class="card">
+            <h2>Tenders</h2>
+            <table class="dash-table" id="tenders-table">
+              <thead>
+                <tr>
+                  <th>Name of work</th>
+                  <th>Reference</th>
+                  <th>Authority</th>
+                  <th>Generated</th>
+                  <th>Completeness</th>
+                  <th>Files</th>
+                </tr>
+              </thead>
+              <tbody id="tenders-body"></tbody>
+            </table>
+          </div>
+
+          <div class="card">
+            <h2>Evaluations</h2>
+            <table class="dash-table" id="evaluations-table">
+              <thead>
+                <tr>
+                  <th>Tender ref</th>
+                  <th>Released</th>
+                  <th>Bidders</th>
+                  <th>Complete</th>
+                  <th>Best match</th>
+                  <th>Status</th>
+                  <th>Final selection</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody id="evaluations-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Empty state (Req 12) -->
+        <div id="empty-state" class="card dash-empty" hidden>
+          <p>No tenders or evaluations yet. Start by creating a tender.</p>
+          <a href="/" class="primary">Create a tender</a>
+        </div>
+      </main>
+    </div><!-- /app-content -->
+  </div><!-- /app-shell -->
+
+  <script src="/static/dashboard.js?v=1"></script>
+</body>
+</html>

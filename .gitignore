@@ -14,3 +14,9 @@ output/
 # OS
 .DS_Store
 Thumbs.db
+
+# Caches / data
+.hypothesis/
+.pytest_cache/
+*.zip
+*.rar
